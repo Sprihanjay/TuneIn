@@ -1,10 +1,13 @@
+"use client";
+
 import React from "react";
 import { SignIn } from "../components/signin/signin";
+import useAuth from "@/lib/hooks/useAuth";
 
-const dashboard = ({ children }: { children: React.ReactElement }) => {
-  const isAuthenticated = false;
+const Dashboard = ({ children }: { children: React.ReactElement }) => {
+  const isAuthenticated = useAuth();
 
   return isAuthenticated ? <div>{children}</div> : <SignIn />;
 };
 
-export default dashboard;
+export default Dashboard;
