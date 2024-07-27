@@ -4,12 +4,13 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { IconBrandGoogle, IconBrandOnlyfans } from "@tabler/icons-react";
-import { auth } from "../../../lib/firebase/clientApp";
+import { auth, db } from "../../../lib/firebase/clientApp";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import { addDoc, collection, doc, Firestore, setDoc } from "firebase/firestore";
 
 export function SignIn() {
   const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,11 +32,39 @@ export function SignIn() {
     let password = document.getElementsByName(
       "password"
     )[0] as HTMLInputElement;
+    let firstname = document.getElementsByName(
+      "firstname"
+    )[0] as HTMLInputElement;
+    let lastname = document.getElementsByName(
+      "lastname"
+    )[0] as HTMLInputElement;
+
+    console.log(firstname);
+
+    if (
+      !firstname.value ||
+      !lastname.value ||
+      !email.value ||
+      !password.value
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
 
     createUserWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+
+        const userData = {
+          firstName: firstname.value,
+          lastName: lastname.value,
+          email: email.value,
+        };
+
+        return setDoc(doc(db, "users", user.uid), userData);
+      })
+      .then(() => {
+        console.log("User data successfully written!");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -58,11 +87,11 @@ export function SignIn() {
         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
           <LabelInputContainer>
             <Label htmlFor="firstname">First name</Label>
-            <Input id="firstname" type="text" />
+            <Input id="firstname" type="text" name="firstname" />
           </LabelInputContainer>
           <LabelInputContainer>
             <Label htmlFor="lastname">Last name</Label>
-            <Input id="lastname" type="text" />
+            <Input id="lastname" type="text" name="lastname" />
           </LabelInputContainer>
         </div>
         <LabelInputContainer className="mb-4">
