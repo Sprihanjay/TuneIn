@@ -4,10 +4,12 @@ import React from "react";
 import { SignIn } from "../components/signin/signin";
 import useAuth from "@/lib/hooks/useAuth";
 
-const Dashboard = ({ children }: { children: React.ReactElement }) => {
+const DashboardLayout = ({ children }: { children: React.ReactElement }) => {
   const isAuthenticated = useAuth();
 
-  return isAuthenticated ? <div>{children}</div> : <SignIn />;
+  // TODO: To be set up in future commit
+  // const isAuthenticated = false;
+  return isAuthenticated ? <>{children}</> : <SignIn />;
 };
 
-export default Dashboard;
+export default DashboardLayout;
