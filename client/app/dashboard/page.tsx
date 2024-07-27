@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Carousel, Card } from "../components/ui/apple-cards-carousel";
 import { PlaceholdersAndVanishInput } from "../components/ui/placeholders-and-vanish-input";
 import { data } from "@/lib/constants";
-import SignOutButton from "../components/signout/signout";
 
 export default function Dashboard() {
   const [query, setQuery] = useState<string>("");
