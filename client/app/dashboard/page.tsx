@@ -27,16 +27,16 @@ export default function Dashboard() {
   ));
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-customone">
       {/* Deleted after we add navbar */}
       <div className="bg-orange-500">
         <SignOutButton />
       </div>
-      <div className="bg-customfive">
-        <h2 className="pt-16 max-w-7xl mx-auto text-3xl md:text-5xl font-bold font-customfive font-sans text-center">
+      <div className="backdrop-blur-lg">
+        <h2 className="pt-20 max-w-7xl mx-auto text-3xl md:text-5xl font-bold text-customfive font-sans text-center">
           Featured Gigs/Opportunities
         </h2>
-        <div className="py-8">
+        <div className="pb-12 pt-12">
           <PlaceholdersAndVanishInput
             placeholders={placeholders}
             onChange={handleChange}
