@@ -20,7 +20,7 @@ const config: Config = {
         customtwo: "#1B263B",
         customthree: "#415A77",
         customfour: "#778DA9",
-        customfive: "E0E1DD",
+        customfive: "#E0E1DD",
       },
       boxShadow: {
         input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,

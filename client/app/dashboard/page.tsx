@@ -32,8 +32,8 @@ export default function Dashboard() {
       <div className="bg-orange-500">
         <SignOutButton />
       </div>
-      <div className="bg-customone">
-        <h2 className="pt-16 max-w-7xl mx-auto text-3xl md:text-5xl font-bold text-neutral-800 font-sans text-center">
+      <div className="bg-customfive">
+        <h2 className="pt-16 max-w-7xl mx-auto text-3xl md:text-5xl font-bold font-customfive font-sans text-center">
           Featured Gigs/Opportunities
         </h2>
         <div className="py-8">
