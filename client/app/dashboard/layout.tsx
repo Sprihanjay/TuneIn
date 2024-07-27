@@ -1,10 +1,17 @@
 import React from "react";
 import { SignIn } from "../components/signin/signin";
 
-const dashboard = ({ children }: { children: React.ReactElement }) => {
-  const isAuthenticated = false;
+const dashboardLayout = ({ children }: { children: React.ReactElement }) => {
 
-  return isAuthenticated ? <div>{children}</div> : <SignIn />;
+  // TODO: To be set up in future commit
+  // const isAuthenticated = false;
+  // return isAuthenticated ? <div>{children}</div> : <SignIn />;
+
+  return (
+    <>
+      {children}
+    </>
+  )
 };
 
-export default dashboard;
+export default dashboardLayout;
