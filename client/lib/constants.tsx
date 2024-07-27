@@ -38,18 +38,21 @@ export const data = [
     category: "Artificial Intelligence",
     title: "You can do more with AI.",
     content: <DummyContent />,
-    src: "/TestImage.jpg",
+    src: "/WhiteBGTest.jpg",
+    description: "This is a description of the gig/opportunity",
   },
   {
     category: "Artificial Intelligence",
     title: "You can do more with AI.",
     content: <DummyContent />,
     src: "/TestImage.jpg",
+    description: "This is a description of the gig/opportunity",
   },
   {
     category: "Artificial Intelligence",
     title: "You can do more with AI.",
     content: <DummyContent />,
     src: "/TestImage.jpg",
+    description: "This is a description of the gig/opportunity",
   },
 ];
