@@ -28,17 +28,22 @@ export default function Dashboard() {
 
   return (
     <div className="w-full h-full">
-      <SignOutButton />
-      <div className="py-10">
-        <PlaceholdersAndVanishInput
-          placeholders={placeholders}
-          onChange={handleChange}
-          onSubmit={onSubmit}
-        />
+      {/* Deleted after we add navbar */}
+      <div className="bg-orange-500">
+        <SignOutButton />
       </div>
-      <h2 className="max-w-7xl pl-4 mx-auto text-xl md:text-5xl font-bold text-neutral-800 font-sans">
-        Featured Gigs/Opportunities
-      </h2>
+      <div className="bg-customone">
+        <h2 className="pt-16 max-w-7xl mx-auto text-3xl md:text-5xl font-bold text-neutral-800 font-sans text-center">
+          Featured Gigs/Opportunities
+        </h2>
+        <div className="py-8">
+          <PlaceholdersAndVanishInput
+            placeholders={placeholders}
+            onChange={handleChange}
+            onSubmit={onSubmit}
+          />
+        </div>
+      </div>
       <Carousel items={cards} />
     </div>
   );
