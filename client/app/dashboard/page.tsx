@@ -1,13 +1,17 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Carousel, Card } from "../components/ui/apple-cards-carousel";
 import { PlaceholdersAndVanishInput } from "../components/ui/placeholders-and-vanish-input";
 import { data } from "@/lib/constants";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db, storage } from "@/lib/firebase/clientApp";
+import { Content } from "next/font/google";
+import { getDownloadURL, ref } from "firebase/storage";
 
 export default function Dashboard() {
   const [query, setQuery] = useState<string>("");
-
+  const [postList, setPostList] = useState<any[]>([]);
   const placeholders = ["Search for a gig/opportunity..."];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +25,31 @@ export default function Dashboard() {
     // Action here
   };
 
-  const cards = data.map((card, index) => (
+  useEffect(() => {
+    const postRef = collection(db, "posts");
+    const unsubscribe = onSnapshot(postRef, (snapshot) => {
+      let temp: any[] = [];
+      if (!snapshot.empty) {
+        snapshot.forEach(async (doc) => {
+          const images = ref(storage, `images/${doc.data().files[0]}`);
+          const url = await getDownloadURL(images);
+          let postData = {
+            src: url,
+            title: doc.data().title,
+            category: "apples",
+            description: doc.data().desc,
+            content: "apples",
+          };
+          temp.push({ postData });
+        });
+        setPostList([...temp]);
+      }
+      console.log(temp);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const cards = postList.map((card, index) => (
     <Card key={index} card={card} index={index} />
   ));
 
@@ -39,7 +67,10 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      <Carousel items={cards} />
+      {/* <Carousel items={cards} /> */}
+      {postList.map((key, index) => (
+        <div key={key}>{key}</div>
+      ))}
     </div>
   );
 }
