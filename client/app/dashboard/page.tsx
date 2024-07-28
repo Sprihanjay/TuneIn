@@ -27,27 +27,39 @@ export default function Dashboard() {
 
   useEffect(() => {
     const postRef = collection(db, "posts");
-    const unsubscribe = onSnapshot(postRef, (snapshot) => {
-      let temp: any[] = [];
+    const unsubscribe = onSnapshot(postRef, async (snapshot) => {
+      
       if (!snapshot.empty) {
-        snapshot.forEach(async (doc) => {
-          const images = ref(storage, `images/${doc.data().files[0]}`);
-          const url = await getDownloadURL(images);
+        let temp: any[] = [];
+
+        snapshot.forEach((doc) => {
           let postData = {
-            src: url,
+            src: doc.data().files[0],
             title: doc.data().title,
             category: "apples",
             description: doc.data().desc,
             content: "apples",
           };
-          temp.push({ postData });
+
+          temp.push(postData);
         });
-        setPostList([...temp]);
+
+        const posts = [];
+        for (const item of temp) {
+          const images = ref(storage, `images/${item.src}`);
+          const url = await getDownloadURL(images);
+          
+          posts.push({ ...item, src: url });
+        }
+
+        setPostList(posts);
+        console.log(posts);
       }
-      console.log(temp);
+
     });
+
     return () => unsubscribe();
-  }, []);
+  }, [ ]);
 
   const cards = postList.map((card, index) => (
     <Card key={index} card={card} index={index} />
@@ -67,10 +79,7 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      {/* <Carousel items={cards} /> */}
-      {postList.map((key, index) => (
-        <div key={key}>{key}</div>
-      ))}
+      <Carousel items={cards} />
     </div>
   );
 }
