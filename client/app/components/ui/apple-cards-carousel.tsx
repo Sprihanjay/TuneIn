@@ -20,7 +20,6 @@ interface CarouselProps {
 type Card = {
   src: string;
   title: string;
-  category: string;
   description: string;
   content: React.ReactNode;
 };
@@ -68,7 +67,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
 
   const handleCardClose = (index: number) => {
     if (carouselRef.current) {
-      const cardHeight = 384; // Example card height
+      const cardHeight = 300; // Example card height
       const gap = 16; // Example gap between cards
       const scrollPosition = (cardHeight + gap) * (index + 1);
       carouselRef.current.scrollTo({
@@ -81,23 +80,27 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
 
   return (
     <CarouselContext.Provider
-      value={{ onCardClose: handleCardClose, currentIndex }}>
-      <div className="relative w-full h-full">
+      value={{ onCardClose: handleCardClose, currentIndex }}
+    >
+      <div className="relative w-10/12 h-full mx-auto">
         <div
           className="flex flex-col w-full overflow-y-scroll overscroll-y-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]"
           ref={carouselRef}
-          onScroll={checkScrollability}>
+          onScroll={checkScrollability}
+        >
           <div
             className={cn(
               "absolute bottom-0 z-[1000] w-auto h-[5%] overflow-hidden bg-gradient-to-t"
-            )}></div>
+            )}
+          ></div>
 
           <div
             className={cn(
               "flex flex-col justify-start gap-4 pl-4",
               "max-h-screen mx-auto", // Adjust max height as needed
               "w-4/5"
-            )}>
+            )}
+          >
             {items.map((item, index) => (
               <motion.div
                 initial={{
@@ -115,7 +118,8 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                   },
                 }}
                 key={"card" + index}
-                className="last:pb-[5%] md:last:pb-[33%] rounded-3xl">
+                className="last:pb-[5%] md:last:pb-[33%] rounded-3xl"
+              >
                 {item}
               </motion.div>
             ))}
@@ -184,23 +188,21 @@ export const Card = ({
               exit={{ opacity: 0 }}
               ref={containerRef}
               layoutId={layout ? `card-${card.title}` : undefined}
-              className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative">
+              className="max-w-5xl mx-auto bg-customone h-fit z-[60] my-10 md:p-10 rounded-3xl font-sans relative font-bold"
+            >
               <button
                 className="sticky top-4 h-8 w-8 right-0 ml-auto bg-black dark:bg-white rounded-full flex items-center justify-center"
-                onClick={handleClose}>
+                onClick={handleClose}
+              >
                 <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
               </button>
               <motion.p
-                layoutId={layout ? `category-${card.title}` : undefined}
-                className="text-base font-medium text-black dark:text-white">
-                {card.category}
-              </motion.p>
-              <motion.p
                 layoutId={layout ? `title-${card.title}` : undefined}
-                className="text-2xl md:text-5xl font-semibold text-neutral-700 mt-4 dark:text-white">
+                className="text-2xl md:text-5xl font-semibold mt-4 text-white"
+              >
                 {card.title}
               </motion.p>
-              <div className="py-10">{card.content}</div>
+              <div className="py-10 text-customfour">{card.content}</div>
             </motion.div>
           </div>
         )}
@@ -217,23 +219,13 @@ export const Card = ({
             src={card.src}
             alt={card.title}
             fill
-            className="object-cover absolute inset-0"
+            className="object-fill absolute inset-0"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-20" />
           <div className="relative z-30 p-8 max-w-lg">
             <motion.p
-              layoutId={layout ? `category-${card.category}` : undefined}
-              className="text-white text-sm md:text-base font-medium font-sans"
-              style={{
-                textShadow:
-                  "0 1px 2px rgba(0, 0, 0, 0.8), 0 1px 1px rgba(0, 0, 0, 0.5)",
-              }} // Added text-shadow for blur effect
-            >
-              {card.category}
-            </motion.p>
-            <motion.p
               layoutId={layout ? `title-${card.title}` : undefined}
-              className="text-white text-xl md:text-4xl font-semibold mt-2"
+              className="text-customfive text-xl md:text-4xl font-semibold mt-2"
               style={{
                 textShadow:
                   "0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 0.5)",

@@ -9,10 +9,7 @@ import { cn } from "@/lib/utils";
 export function Navbar() {
   return (
     <div className="relative w-full flex items-center justify-center py-10 bg-customone">
-      <NavbarHelper className="top-2" />
-      <p className="text-black dark:text-white">
-        The Navbar will show on top of the page
-      </p>
+      <NavbarHelper />
     </div>
   );
 }
@@ -33,7 +30,8 @@ function NavbarHelper({ className }: { className?: string }) {
       className={cn(
         "absolute top-10 inset-x-0 max-w-3xl mx-auto z-50",
         className
-      )}>
+      )}
+    >
       <Menu setActive={setActive}>
         <NavButton item="Dashboard" href="/dashboard" />
         <NavButton item="Create Posting" href="/create-post" />

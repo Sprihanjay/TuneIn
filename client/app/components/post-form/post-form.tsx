@@ -15,7 +15,7 @@ import {
 import { db, storage } from "@/lib/firebase/clientApp";
 import { ref, uploadBytes } from "firebase/storage";
 
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 import useBoundState from "./bound-state";
 
 type THeaderProps = {
@@ -25,8 +25,8 @@ type THeaderProps = {
 const Header = ({ text }: THeaderProps) => {
   return (
     <>
-      <div className="font-bold text-2xl mt-2">{text}</div>
-      <div className="w-full border-b-2 border-b-slate-100 mb-2"></div>
+      <div className="font-bold text-2xl mt-2 text-customfive">{text}</div>
+      <div className="w-full border-b-2 border-customthree mb-2"></div>
     </>
   );
 };
@@ -110,7 +110,7 @@ const FileUploadButton = ({
     <div>
       <label
         htmlFor="file-input"
-        className="w-48 h-48 bg-white flex justify-center items-center rounded-lg text-black border-dotted border-2 border-black cursor-pointer"
+        className="w-48 h-48 bg-customfour flex justify-center items-center rounded-lg text-black border-dotted border-2 border-black cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +158,7 @@ const PostForm = () => {
     content: "",
     onUpdate({ editor }) {
       setDesc(editor.getText());
-    }
+    },
   });
 
   const [files, setFiles] = useState<TFileItemProps[]>([]);
@@ -221,7 +221,8 @@ const PostForm = () => {
     await setDoc(doc(postRef), {
       title,
       desc,
-      files: savedFileNames
+      files: savedFileNames,
+      content,
     });
   };
 
@@ -235,27 +236,35 @@ const PostForm = () => {
       await uploadBytes(imagesRef, file.file);
       return true;
     }
-    
-    return false;
-  }
 
-  const [title, titleBinding, setTitleState] = useBoundState('');
+    return false;
+  };
+
+  const [title, titleBinding, setTitleState] = useBoundState("");
+  const [content, contentBinding, setContentState] = useBoundState("");
   const [desc, setDesc] = useState<string>();
 
   return (
-    <div className="w-7/12 bg-custom">
+    <div className="bg-customtwo w-1/2 px-10 h-11/12 py-4 rounded-lg">
       <Header text="Post Title"></Header>
       <input
         ref={titleBinding}
-        className="bg-customtwo text-customfive p-3 rounded-lg w-full"
+        className="bg-customthree text-customfive p-3 rounded-lg w-full"
         name="title"
         placeholder="Add title post..."
       ></input>
       <Header text="Description"></Header>
       <EditorContent
-        className="bg-customtwo text-customfive p-3 rounded-lg outline-none border-none shadow-none border-0"
+        className="bg-customthree text-customfive p-3 rounded-lg outline-none border-none shadow-none border-0"
         editor={editor}
       />
+      <Header text="Content"></Header>
+      <input
+        ref={contentBinding}
+        className="bg-customthree text-customfive p-3 rounded-lg w-full"
+        name="content"
+        placeholder="Add content text..."
+      ></input>
       <Header text="Inspiration"></Header>
       <div className="w-full flex gap-4">
         <FileUploadButton uploadFile={uploadFile}></FileUploadButton>
@@ -269,7 +278,7 @@ const PostForm = () => {
       </div>
       <div className="w-full flex justify-center mt-6">
         <button
-          className="text-white bg-black p-2 rounded-lg"
+          className="text-customone bg-customfour p-2 rounded-lg font-semibold"
           onClick={createPost}
         >
           Create post

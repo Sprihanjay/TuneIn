@@ -28,7 +28,6 @@ export default function Dashboard() {
   useEffect(() => {
     const postRef = collection(db, "posts");
     const unsubscribe = onSnapshot(postRef, async (snapshot) => {
-      
       if (!snapshot.empty) {
         let temp: any[] = [];
 
@@ -36,9 +35,8 @@ export default function Dashboard() {
           let postData = {
             src: doc.data().files[0],
             title: doc.data().title,
-            category: "apples",
             description: doc.data().desc,
-            content: "apples",
+            content: doc.data().content,
           };
 
           temp.push(postData);
@@ -48,18 +46,15 @@ export default function Dashboard() {
         for (const item of temp) {
           const images = ref(storage, `images/${item.src}`);
           const url = await getDownloadURL(images);
-          
+
           posts.push({ ...item, src: url });
         }
-
         setPostList(posts);
-        console.log(posts);
       }
-
     });
 
     return () => unsubscribe();
-  }, [ ]);
+  }, []);
 
   const cards = postList.map((card, index) => (
     <Card key={index} card={card} index={index} />
@@ -68,7 +63,7 @@ export default function Dashboard() {
   return (
     <div className="w-full h-full bg-customone">
       <div className="backdrop-blur-lg">
-        <h2 className="pt-20 max-w-7xl mx-auto text-3xl md:text-5xl font-bold text-customfive font-sans text-center">
+        <h2 className="pt-32 max-w-7xl mx-auto text-3xl md:text-5xl font-bold text-customfive font-sans text-center">
           Featured Gigs/Opportunities
         </h2>
         <div className="pb-12 pt-12">
