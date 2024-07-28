@@ -62,8 +62,7 @@ const FileItem = ({ file, fileType }: TFileItemProps) => {
             height="32"
             color="#000000"
             fill="none"
-            className="mx-auto"
-          >
+            className="mx-auto">
             <circle
               cx="6.5"
               cy="18.5"
@@ -111,16 +110,14 @@ const FileUploadButton = ({
     <div>
       <label
         htmlFor="file-input"
-        className="w-48 h-48 bg-customfour flex justify-center items-center rounded-lg text-black border-dotted border-2 border-black cursor-pointer"
-      >
+        className="w-48 h-48 bg-customfour flex justify-center items-center rounded-lg text-black border-dotted border-2 border-black cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           width="32"
           height="32"
           color="#000000"
-          fill="none"
-        >
+          fill="none">
           <path
             d="M12 4.5L12 14.5M12 4.5C11.2998 4.5 9.99153 6.4943 9.5 7M12 4.5C12.7002 4.5 14.0085 6.4943 14.5 7"
             stroke="currentColor"
@@ -226,6 +223,7 @@ const PostForm = () => {
       desc,
       files: savedFileNames,
       content,
+      applied: [],
     });
   };
 
@@ -244,56 +242,57 @@ const PostForm = () => {
   };
 
   const goBack = () => {
-    router.push('/dashboard');
-  }
+    router.push("/dashboard");
+  };
 
   const [title, titleBinding, setTitleState] = useBoundState("");
   const [content, contentBinding, setContentState] = useBoundState("");
   const [desc, setDesc] = useState<string>();
 
-  return (<div className="flex flex-col w-full justify-center items-center">
-    <div onClick={goBack} className="text-white mb-2 cursor-pointer w-1/2 float-left">{'< Back'}</div>
-    <div className="bg-customtwo w-1/2 px-10 h-11/12 py-4 rounded-lg">
-      <Header text="Post Title"></Header>
-      <input
-        ref={titleBinding}
-        className="bg-customthree text-customfive p-3 rounded-lg w-full"
-        name="title"
-        placeholder="Add title post..."
-      ></input>
-      <Header text="Description"></Header>
-      <EditorContent
-        className="bg-customthree text-customfive p-3 rounded-lg outline-none border-none shadow-none border-0"
-        editor={editor}
-      />
-      <Header text="Content"></Header>
-      <input
-        ref={contentBinding}
-        className="bg-customthree text-customfive p-3 rounded-lg w-full"
-        name="content"
-        placeholder="Add content text..."
-      ></input>
-      <Header text="Inspiration"></Header>
-      <div className="w-full flex gap-4">
-        <FileUploadButton uploadFile={uploadFile}></FileUploadButton>
-        {files.map((item) => (
-          <FileItem
-            file={item.file}
-            fileType={item.fileType}
-            key={item.file.name}
-          ></FileItem>
-        ))}
+  return (
+    <div className="flex flex-col w-full justify-center items-center">
+      <div
+        onClick={goBack}
+        className="text-white mb-2 cursor-pointer w-1/2 float-left">
+        {"< Back"}
       </div>
-      <div className="w-full flex justify-center mt-6">
-        <button
-          className="text-customone bg-customfour p-2 rounded-lg font-semibold"
-          onClick={createPost}
-        >
-          Create post
-        </button>
+      <div className="bg-customtwo w-1/2 px-10 h-11/12 py-4 rounded-lg">
+        <Header text="Post Title"></Header>
+        <input
+          ref={titleBinding}
+          className="bg-customthree text-customfive p-3 rounded-lg w-full"
+          name="title"
+          placeholder="Add title post..."></input>
+        <Header text="Description"></Header>
+        <EditorContent
+          className="bg-customthree text-customfive p-3 rounded-lg outline-none border-none shadow-none border-0"
+          editor={editor}
+        />
+        <Header text="Content"></Header>
+        <input
+          ref={contentBinding}
+          className="bg-customthree text-customfive p-3 rounded-lg w-full"
+          name="content"
+          placeholder="Add content text..."></input>
+        <Header text="Inspiration"></Header>
+        <div className="w-full flex gap-4">
+          <FileUploadButton uploadFile={uploadFile}></FileUploadButton>
+          {files.map((item) => (
+            <FileItem
+              file={item.file}
+              fileType={item.fileType}
+              key={item.file.name}></FileItem>
+          ))}
+        </div>
+        <div className="w-full flex justify-center mt-6">
+          <button
+            className="text-customone bg-customfour p-2 rounded-lg font-semibold"
+            onClick={createPost}>
+            Create post
+          </button>
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 export default PostForm;
