@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, JSONContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 
@@ -12,7 +12,11 @@ import {
   getCountFromServer,
   setDoc,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase/clientApp";
+import { db, storage } from "@/lib/firebase/clientApp";
+import { ref, uploadBytes } from "firebase/storage";
+
+import { v4 } from 'uuid';
+import useBoundState from "./bound-state";
 
 type THeaderProps = {
   text: string;
@@ -152,6 +156,9 @@ const PostForm = () => {
       }),
     ],
     content: "",
+    onUpdate({ editor }) {
+      setDesc(editor.getText());
+    }
   });
 
   const [files, setFiles] = useState<TFileItemProps[]>([]);
@@ -198,27 +205,48 @@ const PostForm = () => {
     setFiles([...tmp, ...files]);
   };
 
-  const createPost = (event: MouseEvent<HTMLButtonElement>) => {
-    handlePostStorage();
-  };
-
-  const handlePostStorage = async () => {
-    let title = document.getElementsByName("title")[0] as HTMLInputElement;
-    const formData = {
-      title: title.value,
-    };
+  const createPost = async (event: MouseEvent<HTMLButtonElement>) => {
+    // save post in document
     const postRef = collection(db, "posts");
-    // const snapShot = await getCountFromServer(postRef);
-    return await setDoc(doc(postRef), {
-      ...formData,
-      // postCount: snapShot.data().count,
+
+    const savedFileNames = [];
+    // save to storage
+    const postString = "";
+    for (const file of files) {
+      const str = `${postString}_${file.file.name}_${v4()}`;
+      savedFileNames.push(str);
+      await addFileToStorage(file, str);
+    }
+
+    await setDoc(doc(postRef), {
+      title,
+      desc,
+      files: savedFileNames
     });
   };
+
+  const addFileToStorage = async (file: TFileItemProps, fileName: string) => {
+    if (file.fileType === EFileType.Audio) {
+      const audioRef = ref(storage, `audio/${fileName}`);
+      await uploadBytes(audioRef, file.file);
+      return true;
+    } else if (file.fileType === EFileType.Image) {
+      const imagesRef = ref(storage, `images/${fileName}`);
+      await uploadBytes(imagesRef, file.file);
+      return true;
+    }
+    
+    return false;
+  }
+
+  const [title, titleBinding, setTitleState] = useBoundState('');
+  const [desc, setDesc] = useState<string>();
 
   return (
     <div className="w-7/12 bg-custom">
       <Header text="Post Title"></Header>
       <input
+        ref={titleBinding}
         className="bg-customtwo text-customfive p-3 rounded-lg w-full"
         name="title"
         placeholder="Add title post..."

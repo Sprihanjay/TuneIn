@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { getStorage, ref } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -31,5 +32,6 @@ if (typeof window !== "undefined") {
   });
 }
 const db = getFirestore(app);
+const storage = getStorage();
 
-export { app, analytics, auth, db };
+export { app, analytics, auth, db, storage };
