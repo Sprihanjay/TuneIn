@@ -1,12 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
+import { SignIn } from "./components/signin/signin";
 
 export default function Home() {
   return (
-    <main>
-      <h1>Test</h1>
-      <Link href="/dashboard">
-        <button>Apples</button>
-      </Link>
+    <main className="flex justify-center items-center h-screen flex-col">
+      <SignIn />
     </main>
   );
 }
