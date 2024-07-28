@@ -1,4 +1,3 @@
-"use client";
 import React, {
   useEffect,
   useRef,
@@ -134,10 +133,12 @@ export const Card = ({
   card,
   index,
   layout = false,
+  onClick,
 }: {
   card: Card;
   index: number;
   layout?: boolean;
+  onClick?: () => Promise<void>;
 }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -169,6 +170,13 @@ export const Card = ({
   const handleClose = () => {
     setOpen(false);
     onCardClose(index);
+  };
+
+  const handleApplyClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent the card from opening
+    if (onClick) {
+      onClick();
+    }
   };
 
   return (
@@ -238,6 +246,11 @@ export const Card = ({
           </div>
           <div className="absolute right-0 top-0 bottom-0 bg-black text-white p-4 flex items-center justify-center z-40 w-1/3">
             <p className="text-xs md:text-base">{card.description}</p>
+            <button
+              className="ml-4 p-2 bg-green-500 text-white rounded-lg transition-transform duration-200 hover:scale-110"
+              onClick={handleApplyClick}>
+              Apply
+            </button>
           </div>
         </div>
       </motion.button>
