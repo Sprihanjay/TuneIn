@@ -17,6 +17,7 @@ import { ref, uploadBytes } from "firebase/storage";
 
 import { v4 } from "uuid";
 import useBoundState from "./bound-state";
+import { useRouter } from "next/navigation";
 
 type THeaderProps = {
   text: string;
@@ -161,6 +162,8 @@ const PostForm = () => {
     },
   });
 
+  const router = useRouter();
+
   const [files, setFiles] = useState<TFileItemProps[]>([]);
 
   const determineFileType = (file: File) => {
@@ -240,11 +243,16 @@ const PostForm = () => {
     return false;
   };
 
+  const goBack = () => {
+    router.push('/dashboard');
+  }
+
   const [title, titleBinding, setTitleState] = useBoundState("");
   const [content, contentBinding, setContentState] = useBoundState("");
   const [desc, setDesc] = useState<string>();
 
-  return (
+  return (<div className="flex flex-col w-full justify-center items-center">
+    <div onClick={goBack} className="text-white mb-2 cursor-pointer w-1/2 float-left">{'< Back'}</div>
     <div className="bg-customtwo w-1/2 px-10 h-11/12 py-4 rounded-lg">
       <Header text="Post Title"></Header>
       <input
@@ -285,6 +293,7 @@ const PostForm = () => {
         </button>
       </div>
     </div>
+  </div>
   );
 };
 export default PostForm;

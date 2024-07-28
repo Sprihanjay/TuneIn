@@ -12,7 +12,9 @@ function useBoundState(initialValue: any, { event = 'input' } = {}) {
     (stateRef.current as any).addEventListener(event, callback);
 
     return () => {
-      (stateRef.current as any).removeEventListener(event, callback);
+      if (stateRef.current) {
+        (stateRef.current as any).removeEventListener(event, callback);
+      }
     };
   });
 
