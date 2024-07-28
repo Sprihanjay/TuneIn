@@ -21,4 +21,3 @@ const ProfileLayout = ({ children }: { children: React.ReactElement }) => {
 };
 
 export default ProfileLayout;
-
