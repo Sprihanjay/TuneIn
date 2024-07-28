@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-
-const Profile = () => {
-  return <div></div>
-}
-
-export default Profile;
-=======
 "use client";
 
 import Image from "next/image";
@@ -19,4 +11,3 @@ export default function Profile() {
     </div>
   );
 }
->>>>>>> profile
