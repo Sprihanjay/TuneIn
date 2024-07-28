@@ -50,6 +50,6 @@ model = xgb.XGBClassifier()
 model.load_model("models.json")
 scaler = joblib.load("scalers.save")
 
-filename = 'End.wav'
-genre = predict_genre(filename)
-print(f"The predicted genre is: {genre}")
+#filename = 'End.wav'
+#genre = predict_genre(filename)
+#print(f"The predicted genre is: {genre}")

@@ -60,5 +60,5 @@ def audio_to_text_deepgram(audio_file_path, language='en'):
     else:
         return f"Error: {response.status_code}, {response.text}"
 
-audio_file_path = 'End.wav' 
-print(audio_to_text_deepgram(audio_file_path))
+#audio_file_path = 'End.wav' 
+#print(audio_to_text_deepgram(audio_file_path))
