@@ -53,7 +53,7 @@ export default function SongInsights() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-customone">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-customone no-visible-scrollbar">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
         <div className="chat-history max-h-96 overflow-y-auto">
           {chatHistory.length === 0 ? (
