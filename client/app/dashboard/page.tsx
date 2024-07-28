@@ -27,10 +27,6 @@ export default function Dashboard() {
 
   return (
     <div className="w-full h-full bg-customone">
-      {/* Deleted after we add navbar */}
-      <div className="bg-orange-500">
-        <SignOutButton />
-      </div>
       <div className="backdrop-blur-lg">
         <h2 className="pt-20 max-w-7xl mx-auto text-3xl md:text-5xl font-bold text-customfive font-sans text-center">
           Featured Gigs/Opportunities
