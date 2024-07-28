@@ -75,7 +75,7 @@ export const NavButton = ({
         onClick={onClick}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white px-4 py-2 rounded-md  transition-colors hover:bg-gray-300 dark:hover:bg-gray-700"
+        className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white px-4 py-2 rounded-md  transition-colors hover:bg-gray-300 dark:hover:bg-gray-700 font-medium"
       >
         {item}
       </motion.button>

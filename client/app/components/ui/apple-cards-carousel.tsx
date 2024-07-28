@@ -210,7 +210,7 @@ export const Card = ({
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="relative rounded-3xl bg-gray-100 dark:bg-neutral-900 w-full h-[20rem] overflow-hidden flex items-start justify-start"
+        className="relative rounded-3xl bg-gray-100 dark:bg-neutral-900 w-full h-[15rem] overflow-hidden flex items-start justify-start"
         style={{ maxWidth: "100%" }} // Ensure full width utilization
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black z-30" />
@@ -236,7 +236,7 @@ export const Card = ({
               {card.title}
             </motion.p>
           </div>
-          <div className="absolute right-0 top-0 bottom-0 bg-black text-white p-4 flex items-center justify-center z-40 w-1/3">
+          <div className="absolute right-0 top-0 bottom-0 bg-black text-white bg-opacity-70 bg-transparent p-4 flex items-center justify-center z-40 w-5/12">
             <p className="text-xs md:text-base">{card.description}</p>
           </div>
         </div>
