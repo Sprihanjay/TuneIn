@@ -75,7 +75,7 @@ export function SignIn() {
 
   return (
     <div className="flex flex-col ">
-      <div className="text-6xl font-bold text-center ">
+      <div className="text-6xl font-bold text-center mb-4">
         <span className=" text-cyan-200 cursor-pointer">
           {" "}
           Tune
@@ -110,14 +110,16 @@ export function SignIn() {
 
           <button
             className="bg-gradient-to-br relative group/btn from-gray-600 to-gray-700 block w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] mb-3"
-            type="submit">
+            type="submit"
+          >
             Log In &rarr;
             <BottomGradient />
           </button>
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-600 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="button"
-            onClick={handleSignUp}>
+            onClick={handleSignUp}
+          >
             Sign up &rarr;
             <BottomGradient />
           </button>

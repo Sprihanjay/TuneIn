@@ -9,10 +9,10 @@ const DashboardLayout = ({ children }: { children: React.ReactElement }) => {
   const isAuthenticated = useAuth();
 
   return isAuthenticated ? (
-    <>
+    <div>
       <Navbar />
       {children}
-    </>
+    </div>
   ) : (
     <main className="flex justify-center items-center h-screen bg-customone">
       <SignIn />

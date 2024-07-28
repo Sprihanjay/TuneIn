@@ -244,11 +244,12 @@ export const Card = ({
               {card.title}
             </motion.p>
           </div>
-          <div className="absolute right-0 top-0 bottom-0 bg-black text-white bg-opacity-70 bg-transparent p-4 flex items-center justify-center z-40 w-5/12">
+          <div className="absolute right-0 top-0 bottom-0 bg-black text-white bg-opacity-90 bg-transparent p-4 flex items-center justify-center z-40 w-5/12">
             <p className="text-xs md:text-base">{card.description}</p>
             <button
-              className="ml-4 p-2 bg-green-500 text-white rounded-lg transition-transform duration-200 hover:scale-110"
-              onClick={handleApplyClick}>
+              className="ml-4 px-3 py-2 bg-green-600 text-white rounded-lg transition-transform duration-200 hover:scale-110 uppercase"
+              onClick={handleApplyClick}
+            >
               Apply
             </button>
           </div>
