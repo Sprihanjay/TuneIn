@@ -199,12 +199,10 @@ const PostForm = () => {
   };
 
   const createPost = (event: MouseEvent<HTMLButtonElement>) => {
-    console.log("success");
     handlePostStorage();
   };
 
   const handlePostStorage = async () => {
-    console.log("oranges");
     let title = document.getElementsByName("title")[0] as HTMLInputElement;
     const formData = {
       title: title.value,
