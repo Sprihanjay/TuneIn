@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
-const defaultTheme = require("tailwindcss/defaultTheme");
-
+const { defaultTheme, fontFamily } = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 const {
   default: flattenColorPalette,
@@ -29,6 +28,9 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      fontFamily: {
+        sans: ["var(--font-rubik)", ...fontFamily.sans],
       },
     },
   },

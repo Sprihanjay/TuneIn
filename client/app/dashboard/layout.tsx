@@ -14,7 +14,7 @@ const DashboardLayout = ({ children }: { children: React.ReactElement }) => {
       {children}
     </>
   ) : (
-    <main className="flex justify-center items-center h-screen">
+    <main className="flex justify-center items-center h-screen bg-customone">
       <SignIn />
     </main>
   );
