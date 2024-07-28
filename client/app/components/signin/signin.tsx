@@ -57,6 +57,8 @@ export function SignIn() {
           firstName: firstname.value,
           lastName: lastname.value,
           email: email.value,
+          applied: [],
+          hosted: [],
         };
 
         return setDoc(doc(db, "users", user.uid), userData);
@@ -102,16 +104,14 @@ export function SignIn() {
 
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-400 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] mb-3"
-            type="submit"
-          >
+            type="submit">
             Log In &rarr;
             <BottomGradient />
           </button>
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-600 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="button"
-            onClick={handleSignUp}
-          >
+            onClick={handleSignUp}>
             Sign up &rarr;
             <BottomGradient />
           </button>
@@ -121,8 +121,7 @@ export function SignIn() {
           <div className="flex flex-col space-y-4">
             <button
               className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-              type="submit"
-            >
+              type="submit">
               <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
               <span className="text-neutral-700 dark:text-neutral-300 text-sm">
                 Google
