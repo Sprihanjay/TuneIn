@@ -6,6 +6,7 @@ import useAuth from "@/lib/hooks/useAuth";
 export default function Home() {
   return (
     <main className="h-screen w-screen bg-customone flex flex-col justify-center items-center text-center ">
+      <Image src="/tunein.png" alt="TuneIn Logo" width={250} height={250} />
       <h1 className="text-customfive text-7xl font-bold mb-4">
         Welcome to
         <span className=" text-cyan-200 cursor-pointer">

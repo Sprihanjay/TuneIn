@@ -75,13 +75,7 @@ export function SignIn() {
 
   return (
     <div className="flex flex-col ">
-      <div className="text-6xl font-bold text-center mb-4">
-        <span className=" text-cyan-200 cursor-pointer">
-          {" "}
-          Tune
-          <span className="text-cyan-400">In</span>
-        </span>
-      </div>
+      <div className="text-6xl font-bold text-center mb-4"></div>
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-black bg-opacity-50 border-customtwo border">
         <form className="my-8" onSubmit={handleSignIn}>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
