@@ -1,5 +1,74 @@
 # TuneIn
 
+## 🎵 Discover. Connect. Perform. 🎤
+
+Welcome to TuneIn, the ultimate networking app for music artists! Whether you're a seasoned musician or just starting your journey, TuneIn is here to revolutionize how you find and apply for music gigs. Streamline your path to success with just a few clicks and get detailed insights about songs and music with our intelligent chatbot. Dive into the future of music networking with TuneIn!
+
+## 🚀 Features
+
+### **1. Job Discovery and Application**
+- **Global Job Search**: Effortlessly search for music job opportunities worldwide.
+- **Job Posting Creation**: Create and post your own job listings to attract top talent.
+- **Application Tracking**: Keep track of your job applications directly from your profile.
+
+### **2. Music Insights and Chatbot**
+- **Music Chatbot**: Get instant answers and insights about songs and music-related queries from our smart chatbot.
+- **Music Education**: Learn more about music with educational content provided by the chatbot.
+
+### **3. Profile Management**
+- **User Profiles**: Build and manage your musician profile to showcase your skills and experience.
+- **Job Postings**: Create and manage job postings from your profile.
+- **Application Tracking**: Monitor your job applications and stay updated on your progress.
+
+### **4. Music Tagging and Recommendations**
+- **Genre and Emotion Tags**: Automatically generate genre and emotion tags for any audio format.
+- **Search Query Integration**: Find songs based on user input with our advanced search functionality.
+- **Listening Data Tracking**: Track your listening habits and generate personalized tags.
+
+### **5. Profile Matching**
+- **Profile Tagging**: Connect with other musicians by matching profiles based on generated tags.
+
+### **6. Tech Stack Integration**
+- **Frontend Technologies**: Next.js, React, Framer, Tailwind, CLSx, Tiptap, RadixUI, Tabler Icons.
+- **Backend Technologies**: Firebase, Spotify API, Cohere API, Tensorflow, Keras-tf, Transformers.
+
+### **7. Future Plans (Completed but Not Integrated)**
+- **Music Tagging Integration**: Our model for genre and emotion tagging is ready but not yet integrated into the frontend.
+- **Search Query Functionality**: Our advanced search model is set to return songs based on detailed search queries.
+
+## 📚 Table of Contents
+1. [Background](#background)
+2. [Our Solution](#our-solution)
+3. [Tech Stack](#tech-stack)
+4. [Future Plans](#future-plans)
+5. [Team Info](#team-info)
+
+## 📜 Background
+Struggling to find music gigs or overwhelmed with too much information on music? Meet TuneIn! We simplify the process of discovering and applying for gigs and provide a chatbot that answers all your music-related questions.
+
+## 💡 Our Solution
+With TuneIn, you can:
+- Ask our chatbot anything about music and get detailed insights.
+- Create and apply for jobs with ease.
+- Track your job applications directly from your profile.
+
+## 🛠 Tech Stack
+Our tech stack includes a powerful mix of frontend and backend technologies, ensuring a seamless and efficient experience for our users.
+
+## 🚀 Future Plans
+We have exciting features in the pipeline, including enhanced music tagging and advanced search functionalities. Stay tuned for more updates!
+
+## 👥 Team Info
+- [Kenny Cao (CS@GaTech)](https://www.linkedin.com/in/kennycao4)
+- [Sprihanjay Banik (CS@GaTech)](https://www.linkedin.com/in/sprihanjay/)
+- [Michael Wu (CS@Cornell)](https://www.linkedin.com/in/michael-wu-136044198/)
+- [Matthew Chen (CS@Cornell)](https://www.linkedin.com/in/matthew-chen-b7221b1a8/)
+
+## 🤔 Have Questions?
+Reach out to us through email or LinkedIn. We’d love to hear from you!
+
+# TuneIn
+
 
 
 ## Requirements for MusicAI
@@ -7,6 +76,7 @@
 Make sure you have the libraries installed using `pip install -r requirements.tx`:
 
 To run the Gradio file just type: `python app.py` in terminal.
+
 
 ## Music Genre Prediction (Genre.py)
 
