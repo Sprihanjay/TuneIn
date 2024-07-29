@@ -80,23 +80,27 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
 
   return (
     <CarouselContext.Provider
-      value={{ onCardClose: handleCardClose, currentIndex }}>
+      value={{ onCardClose: handleCardClose, currentIndex }}
+    >
       <div className="relative w-10/12 h-full mx-auto">
         <div
           className="flex flex-col w-full overflow-y-scroll overscroll-y-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]"
           ref={carouselRef}
-          onScroll={checkScrollability}>
+          onScroll={checkScrollability}
+        >
           <div
             className={cn(
               "absolute bottom-0 z-[1000] w-auto h-[5%] overflow-hidden bg-gradient-to-t"
-            )}></div>
+            )}
+          ></div>
 
           <div
             className={cn(
               "flex flex-col justify-start gap-4 pl-4",
               "max-h-screen mx-auto", // Adjust max height as needed
               "w-4/5"
-            )}>
+            )}
+          >
             {items.map((item, index) => (
               <motion.div
                 initial={{
@@ -114,7 +118,8 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                   },
                 }}
                 key={"card" + index}
-                className="last:pb-[5%] md:last:pb-[33%] rounded-3xl">
+                className="last:pb-[5%] md:last:pb-[33%] rounded-3xl"
+              >
                 {item}
               </motion.div>
             ))}
@@ -304,15 +309,18 @@ export const HostedCard = ({
               exit={{ opacity: 0 }}
               ref={containerRef}
               layoutId={layout ? `card-${card.title}` : undefined}
-              className="max-w-6xl mx-auto bg-customone h-fit z-[60] my-10 md:p-10 rounded-3xl font-sans relative font-bold overflow-hidden p-6">
+              className="max-w-6xl mx-auto bg-customone h-fit z-[60] my-10 md:p-10 rounded-3xl font-sans relative font-bold overflow-hidden p-6"
+            >
               <button
                 className="absolute top-4 right-4 h-8 w-8 bg-black dark:bg-white rounded-full flex items-center justify-center"
-                onClick={handleClose}>
+                onClick={handleClose}
+              >
                 <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
               </button>
               <motion.p
                 layoutId={layout ? `title-${card.title}` : undefined}
-                className="text-2xl md:text-5xl font-semibold mt-4 text-white">
+                className="text-2xl md:text-5xl font-semibold mt-4 text-white"
+              >
                 {card.title}
               </motion.p>
               <div className="py-10 text-customfour">
@@ -320,18 +328,21 @@ export const HostedCard = ({
                   {appliedUsers.map((user, index) => (
                     <li
                       key={index}
-                      className="py-2 flex items-center gap-4 px-4">
+                      className="py-2 flex items-center gap-4 px-4"
+                    >
                       <span className="flex-1">
                         {user.id} - {user.status}
                       </span>
                       <button
                         onClick={() => handleAccept(user.id)}
-                        className="px-3 py-2 bg-green-600 text-white rounded-lg transition-transform duration-200 hover:scale-110 uppercase">
+                        className="px-3 py-2 bg-green-600 text-white rounded-lg transition-transform duration-200 hover:scale-110 uppercase"
+                      >
                         Accept
                       </button>
                       <button
                         onClick={() => handleReject(user.id)}
-                        className="px-3 py-2 bg-red-600 text-white rounded-lg transition-transform duration-200 hover:scale-110 uppercase ml-2">
+                        className="px-3 py-2 bg-red-600 text-white rounded-lg transition-transform duration-200 hover:scale-110 uppercase ml-2"
+                      >
                         Reject
                       </button>
                     </li>
@@ -438,15 +449,18 @@ export const Card = ({
               exit={{ opacity: 0 }}
               ref={containerRef}
               layoutId={layout ? `card-${card.title}` : undefined}
-              className="max-w-5xl mx-auto bg-customone h-fit z-[60] my-10 md:p-10 rounded-3xl font-sans relative font-bold">
+              className="max-w-5xl mx-auto bg-customone h-fit z-[60] my-10 md:p-10 rounded-3xl font-sans relative font-bold"
+            >
               <button
                 className="sticky top-4 h-8 w-8 right-0 ml-auto bg-black dark:bg-white rounded-full flex items-center justify-center"
-                onClick={handleClose}>
+                onClick={handleClose}
+              >
                 <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
               </button>
               <motion.p
                 layoutId={layout ? `title-${card.title}` : undefined}
-                className="text-2xl md:text-5xl font-semibold mt-4 text-white">
+                className="text-2xl md:text-5xl font-semibold mt-4 text-white"
+              >
                 {card.title}
               </motion.p>
               <div className="pt-5 mx-auto text-zinc-300 font-semibold max-w-full ">
@@ -481,7 +495,8 @@ export const Card = ({
             {/* Added margin-bottom for spacing */}
             <button
               className="ml-4 px-3 py-2 bg-green-600 text-white rounded-lg transition-transform duration-200 hover:scale-110 uppercase"
-              onClick={handleApplyClick}>
+              onClick={handleApplyClick}
+            >
               Apply
             </button>
           </div>

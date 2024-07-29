@@ -22,8 +22,6 @@ import {
 } from "firebase/firestore";
 import { db, storage } from "@/lib/firebase/clientApp";
 import { ref, uploadBytes } from "firebase/storage";
-import useAuth from "@/lib/hooks/useAuth";
-
 import { v4 } from "uuid";
 import useBoundState from "./bound-state";
 import { useRouter } from "next/navigation";

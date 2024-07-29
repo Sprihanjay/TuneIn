@@ -16,7 +16,7 @@ export default function Profile() {
       value: "applied",
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-customtwo to-zinc-800">
-          <p>Applied Tab</p>
+          <p className="mb-4">Applied Tab</p>
           <Applied />
         </div>
       ),
@@ -26,7 +26,7 @@ export default function Profile() {
       value: "hosted",
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-zinc-800 to-customtwo">
-          <p>Hosted tab</p>
+          <p className="mb-4">Hosted tab</p>
           <Hosted />
         </div>
       ),

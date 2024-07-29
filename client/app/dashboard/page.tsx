@@ -33,15 +33,28 @@ export default function Dashboard() {
 
     try {
       const userDocRef = doc(db, "users", user.uid);
+      const postDocRef = doc(db, "posts", postId);
       const userDoc = await getDoc(userDocRef);
+      const postDoc = await getDoc(postDocRef);
 
       if (userDoc.exists()) {
         const userData = userDoc.data();
+        const postData = postDoc.data();
         const currentApplied = userData.applied || [];
+        const currentPostApplied = postData?.applied || [];
 
+        // Check if the postId is already in the applied array
         if (!currentApplied.includes(postId)) {
+          // Add the new postId to the applied array
           const updatedApplied = [...currentApplied, postId];
+          const updatePostAppliedList = [
+            ...currentPostApplied,
+            { id: user.uid, status: "Applied" },
+          ];
+
+          // Update the user document with the new applied array
           await updateDoc(userDocRef, { applied: updatedApplied });
+          await updateDoc(postDocRef, { applied: updatePostAppliedList });
 
           console.log(`User ${user.uid} applied for post ${postId}`);
           toast.success("Successfully applied!"); // Show success toast
