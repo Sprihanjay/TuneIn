@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Carousel, Card } from "../components/ui/apple-cards-carousel";
 import { PlaceholdersAndVanishInput } from "../components/ui/placeholders-and-vanish-input";
-import { data } from "@/lib/constants";
 import {
   collection,
   onSnapshot,
@@ -12,10 +11,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "@/lib/firebase/clientApp";
-import { Content } from "next/font/google";
 import { getDownloadURL, ref } from "firebase/storage";
 import useAuth from "@/lib/hooks/useAuth";
 import { toast, Toaster } from "react-hot-toast";
+import debounce from "debounce";
 
 export default function Dashboard() {
   const [query, setQuery] = useState<string>("");
@@ -32,28 +31,15 @@ export default function Dashboard() {
 
     try {
       const userDocRef = doc(db, "users", user.uid);
-      const postDocRef = doc(db, "posts", postId);
       const userDoc = await getDoc(userDocRef);
-      const postDoc = await getDoc(postDocRef);
 
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        const postData = postDoc.data();
         const currentApplied = userData.applied || [];
-        const currentPostApplied = postData?.applied || [];
 
-        // Check if the postId is already in the applied array
         if (!currentApplied.includes(postId)) {
-          // Add the new postId to the applied array
           const updatedApplied = [...currentApplied, postId];
-          const updatePostAppliedList = [
-            ...currentPostApplied,
-            { id: user.uid, status: "Applied" },
-          ];
-
-          // Update the user document with the new applied array
           await updateDoc(userDocRef, { applied: updatedApplied });
-          await updateDoc(postDocRef, { applied: updatePostAppliedList });
 
           console.log(`User ${user.uid} applied for post ${postId}`);
           toast.success("Successfully applied!"); // Show success toast
@@ -76,10 +62,11 @@ export default function Dashboard() {
     setQuery(e.target.value);
   };
 
+  const debouncedHandleChange = useCallback(debounce(handleChange, 300), []);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("submitted");
-    // Action here
   };
 
   useEffect(() => {
@@ -96,12 +83,11 @@ export default function Dashboard() {
             description: doc.data().desc,
             content: doc.data().content,
           };
-          if (filter == "") {
+          if (
+            filter === "" ||
+            postData.title.toLowerCase().includes(filter.toLowerCase())
+          ) {
             temp.push(postData);
-          } else {
-            if (postData.title.includes(filter)) {
-              temp.push(postData);
-            }
           }
         });
 
@@ -109,7 +95,6 @@ export default function Dashboard() {
         for (const item of temp) {
           const images = ref(storage, `images/${item.src}`);
           const url = await getDownloadURL(images);
-
           posts.push({ ...item, src: url });
         }
         setPostList(posts);
@@ -137,12 +122,13 @@ export default function Dashboard() {
         <div className="pb-12 pt-12">
           <PlaceholdersAndVanishInput
             placeholders={placeholders}
-            onChange={handleChange}
+            onChange={debouncedHandleChange}
             onSubmit={onSubmit}
           />
         </div>
       </div>
       <Carousel items={cards} />
+      <Toaster /> {/* To show toast notifications */}
     </div>
   );
 }

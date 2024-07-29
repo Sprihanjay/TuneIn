@@ -5,7 +5,13 @@ import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 
 import "./style.css";
-import { ChangeEvent, ChangeEventHandler, MouseEvent, useState } from "react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  MouseEvent,
+  use,
+  useState,
+} from "react";
 import {
   collection,
   doc,
@@ -18,6 +24,7 @@ import { ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import useBoundState from "./bound-state";
 import { useRouter } from "next/navigation";
+import useAuth from "@/lib/hooks/useAuth";
 
 type THeaderProps = {
   text: string;
@@ -44,12 +51,12 @@ type TFileItemProps = {
 
 const FileItem = ({ file, fileType }: TFileItemProps) => {
   const sampleImage = `https://plus.unsplash.com/premium_photo-1722002219049-1c41e1a034c8?q=80&w=1848&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`;
-
+  const user = useAuth();
   return (
     <div className="w-48 h-48 flex justify-center items-center bg-white rounded-lg border-2">
       {fileType === EFileType.Image ? (
         <img
-          src={sampleImage}
+          src={URL.createObjectURL(file)}
           alt="Picture"
           className="w-48 h-48 object-cover rounded-lg"
         />
@@ -209,6 +216,7 @@ const PostForm = () => {
   };
 
   const createPost = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Prevent default form submission if necessary
     // save post in document
     const postRef = collection(db, "posts");
 
