@@ -13,7 +13,7 @@ export default function Profile() {
       title: "Applied",
       value: "applied",
       content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
+        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-customtwo to-zinc-800">
           <p>Applied Tab</p>
           <Applied />
         </div>
@@ -23,7 +23,7 @@ export default function Profile() {
       title: "Hosted",
       value: "hosted",
       content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
+        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-zinc-800 to-customtwo">
           <p>Hosted tab</p>
           <DummyContent />
         </div>

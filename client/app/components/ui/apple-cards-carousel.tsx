@@ -206,10 +206,13 @@ export const Card = ({
               </button>
               <motion.p
                 layoutId={layout ? `title-${card.title}` : undefined}
-                className="text-2xl md:text-5xl font-semibold mt-4 text-white"
+                className="text-2xl md:text-5xl font-bold mt-4 text-customfive uppercase"
               >
                 {card.title}
               </motion.p>
+              <div className="pt-5 mx-auto text-zinc-300 font-semibold max-w-full ">
+                {card.description}
+              </div>
               <div className="py-10 text-customfour">{card.content}</div>
             </motion.div>
           </div>
@@ -223,31 +226,22 @@ export const Card = ({
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black z-30" />
         <div className="relative flex items-start justify-start w-full h-full">
-          <BlurImage
-            src={card.src}
-            alt={card.title}
-            fill
-            className="object-fill absolute inset-0"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-20" />
-          <div className="relative z-30 p-8 max-w-lg">
-            <motion.p
-              layoutId={layout ? `title-${card.title}` : undefined}
-              className="text-customfive text-xl md:text-4xl font-semibold mt-2"
-              style={{
-                textShadow:
-                  "0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 0.5)",
-                whiteSpace: "normal",
-                wordBreak: "break-word",
-              }} // Added text-shadow for blur effect
-            >
-              {card.title}
-            </motion.p>
+          <div className="relative w-full h-full">
+            <BlurImage
+              src={card.src}
+              alt={card.title}
+              fill
+              className="object-fit
+               w-3/4 h-3/4 absolute inset-0" // Adjusted width and height
+            />
           </div>
-          <div className="absolute right-0 top-0 bottom-0 bg-black text-white bg-opacity-90 bg-transparent p-4 flex items-center justify-center z-40 w-5/12">
-            <p className="text-xs md:text-base">{card.description}</p>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-20" />
+          <div className="relative z-30 p-8 max-w-lg"></div>
+          <div className="absolute right-0 top-0 bottom-0 bg-black text-customfive p-4 shadow-md bg-opacity-20 flex flex-col items-center justify-center z-40 w-5/12">
+            <p className="text-3xl mb-4 bold uppercase">{card.title}</p>{" "}
+            {/* Added margin-bottom for spacing */}
             <button
-              className="ml-4 px-3 py-2 bg-green-600 text-white rounded-lg transition-transform duration-200 hover:scale-110 uppercase"
+              className="px-3 py-2 bg-green-600 text-white rounded-lg transition-transform duration-200 hover:scale-110 uppercase"
               onClick={handleApplyClick}
             >
               Apply
@@ -271,7 +265,7 @@ export const BlurImage = ({
   return (
     <Image
       className={cn(
-        "transition duration-300",
+        "transition duration-300 w-1/2",
         isLoading ? "blur-sm" : "blur-0",
         className
       )}

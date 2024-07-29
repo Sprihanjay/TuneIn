@@ -244,56 +244,62 @@ const PostForm = () => {
   };
 
   const goBack = () => {
-    router.push('/dashboard');
-  }
+    router.push("/dashboard");
+  };
 
   const [title, titleBinding, setTitleState] = useBoundState("");
   const [content, contentBinding, setContentState] = useBoundState("");
   const [desc, setDesc] = useState<string>();
 
-  return (<div className="flex flex-col w-full justify-center items-center">
-    <div onClick={goBack} className="text-white mb-2 cursor-pointer w-1/2 float-left">{'< Back'}</div>
-    <div className="bg-customtwo w-1/2 px-10 h-11/12 py-4 rounded-lg">
-      <Header text="Post Title"></Header>
-      <input
-        ref={titleBinding}
-        className="bg-customthree text-customfive p-3 rounded-lg w-full"
-        name="title"
-        placeholder="Add title post..."
-      ></input>
-      <Header text="Description"></Header>
-      <EditorContent
-        className="bg-customthree text-customfive p-3 rounded-lg outline-none border-none shadow-none border-0"
-        editor={editor}
-      />
-      <Header text="Content"></Header>
-      <input
-        ref={contentBinding}
-        className="bg-customthree text-customfive p-3 rounded-lg w-full"
-        name="content"
-        placeholder="Add content text..."
-      ></input>
-      <Header text="Inspiration"></Header>
-      <div className="w-full flex gap-4">
-        <FileUploadButton uploadFile={uploadFile}></FileUploadButton>
-        {files.map((item) => (
-          <FileItem
-            file={item.file}
-            fileType={item.fileType}
-            key={item.file.name}
-          ></FileItem>
-        ))}
+  return (
+    <div className="flex flex-col w-full justify-center items-center">
+      <div
+        onClick={goBack}
+        className="text-white mb-2 cursor-pointer w-1/2 float-left"
+      >
+        {"< Back"}
       </div>
-      <div className="w-full flex justify-center mt-6">
-        <button
-          className="text-customone bg-customfour p-2 rounded-lg font-semibold"
-          onClick={createPost}
-        >
-          Create post
-        </button>
+      <div className="bg-gray-900 w-1/2 px-10 h-11/12 py-4 rounded-lg border border-customthree">
+        <Header text="Post Title"></Header>
+        <input
+          ref={titleBinding}
+          className="bg-customthree text-customfive p-3 rounded-lg w-full"
+          name="title"
+          placeholder="Add title post..."
+        ></input>
+        <Header text="Description"></Header>
+        <EditorContent
+          className="bg-customthree text-customfive p-3 rounded-lg outline-none border-none shadow-none border-0"
+          editor={editor}
+        />
+        <Header text="Content"></Header>
+        <input
+          ref={contentBinding}
+          className="bg-customthree text-customfive p-3 rounded-lg w-full"
+          name="content"
+          placeholder="Add content text..."
+        ></input>
+        <Header text="Inspiration"></Header>
+        <div className="w-full flex gap-4">
+          <FileUploadButton uploadFile={uploadFile}></FileUploadButton>
+          {files.map((item) => (
+            <FileItem
+              file={item.file}
+              fileType={item.fileType}
+              key={item.file.name}
+            ></FileItem>
+          ))}
+        </div>
+        <div className="w-full flex justify-center mt-6">
+          <button
+            className="text-customone bg-customfour p-2 rounded-lg font-semibold"
+            onClick={createPost}
+          >
+            Create post
+          </button>
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 export default PostForm;

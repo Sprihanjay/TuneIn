@@ -20,6 +20,7 @@ import { toast, Toaster } from "react-hot-toast";
 export default function Dashboard() {
   const [query, setQuery] = useState<string>("");
   const [postList, setPostList] = useState<any[]>([]);
+  const [filter, setFilter] = useState<string>("");
   const placeholders = ["Search for a gig/opportunity..."];
   const user = useAuth();
 
@@ -62,7 +63,7 @@ export default function Dashboard() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    setFilter(e.target.value);
     setQuery(e.target.value);
   };
 
@@ -86,8 +87,13 @@ export default function Dashboard() {
             description: doc.data().desc,
             content: doc.data().content,
           };
-
-          temp.push(postData);
+          if (filter == "") {
+            temp.push(postData);
+          } else {
+            if (postData.title.includes(filter)) {
+              temp.push(postData);
+            }
+          }
         });
 
         const posts = [];
@@ -102,7 +108,7 @@ export default function Dashboard() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [filter]);
 
   const cards = postList.map((card, index) => (
     <Card

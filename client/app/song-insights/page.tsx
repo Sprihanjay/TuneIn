@@ -54,7 +54,7 @@ export default function SongInsights() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-customone no-visible-scrollbar">
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
+      <div className="bg-customfive p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
         <div className="chat-history max-h-96 overflow-y-auto">
           {chatHistory.length === 0 ? (
             <div className="font-bold">
@@ -68,13 +68,15 @@ export default function SongInsights() {
               key={index}
               className={`flex ${
                 chat.sender === "user" ? "justify-end" : "justify-start"
-              } mb-4`}>
+              } mb-4`}
+            >
               <div
                 className={`p-3 rounded-lg ${
                   chat.sender === "user"
-                    ? "bg-blue-500 text-white"
+                    ? "bg-customthree text-customfive"
                     : "bg-gray-200 text-black"
-                }`}>
+                }`}
+              >
                 {chat.message}
               </div>
             </div>
@@ -84,17 +86,19 @@ export default function SongInsights() {
       </div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-4 rounded-lg shadow-md w-full max-w-2xl flex">
+        className="bg-customfive p-4 rounded-lg shadow-md w-full max-w-2xl flex"
+      >
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Enter your message"
-          className="bg-black text-white p-3 rounded-lg flex-grow mr-2"
+          className="bg-customtwo text-customfour p-3 rounded-lg flex-grow mr-2"
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white p-3 rounded-lg w-32 hover:bg-blue-600 transition-colors">
+          className="bg-customthree text-white p-3 rounded-lg w-32 hover:bg-customtwo transition-colors"
+        >
           Send
         </button>
       </form>
