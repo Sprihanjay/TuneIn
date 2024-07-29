@@ -10,20 +10,18 @@ type ChatMessage = {
 export default function SongInsights() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-  const [loading, setLoading] = useState(false); // New state for loading
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!message.trim()) return; // Prevent empty messages
+    if (!message.trim()) return;
 
-    // Add user message to chat history
     setChatHistory((prevHistory) => [
       ...prevHistory,
       { sender: "user", message },
     ]);
-    setMessage(""); // Clear the input field
-    setLoading(true); // Start loading
-
+    setMessage("");
+    setLoading(true);
     try {
       const res = await fetch("/api/generate-insights", {
         method: "POST",
@@ -37,7 +35,6 @@ export default function SongInsights() {
         const data = await res.json();
         const responseMessage = data.text;
 
-        // Add LLM response to chat history
         setChatHistory((prevHistory) => [
           ...prevHistory,
           { sender: "llm", message: responseMessage },
@@ -48,7 +45,7 @@ export default function SongInsights() {
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
