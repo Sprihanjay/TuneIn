@@ -6,6 +6,8 @@ import { Tabs } from "../components/ui/tabs";
 import { db } from "@/lib/firebase/clientApp";
 import { doc, getDoc } from "firebase/firestore";
 import useAuth from "@/lib/hooks/useAuth";
+import { HostedCard } from "../components/ui/apple-cards-carousel";
+import { AppliedCard } from "../components/ui/apple-cards-carousel";
 
 export default function Profile() {
   const tabs = [
@@ -25,7 +27,7 @@ export default function Profile() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
           <p>Hosted tab</p>
-          <DummyContent />
+          <Hosted />
         </div>
       ),
     },
@@ -73,9 +75,7 @@ const Applied = () => {
         <div>
           {appliedItems.map((item, index) => (
             <div key={index} className="mb-4">
-              {/* Render each applied item here */}
-              {/* For example, you might render a card or a simple div */}
-              <p>{item}</p> {/* Replace this with actual item details */}
+              <AppliedCard eventId={item} userId={user.uid} />
             </div>
           ))}
         </div>
@@ -86,14 +86,77 @@ const Applied = () => {
   );
 };
 
-const DummyContent = () => {
+const Hosted = () => {
+  const [hostedItems, setHostedItems] = useState<any[]>([]);
+  const [hostedPosts, setHostedPosts] = useState<any[]>([]);
+  const user = useAuth();
+
+  useEffect(() => {
+    const fetchHostedItems = async () => {
+      if (!user) return;
+
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const hosted = userData?.hosted || [];
+
+          console.log("Found applied gigs");
+          setHostedItems(hosted);
+        } else {
+          console.log("User document not found");
+        }
+      } catch (error) {
+        console.error("Error fetching applied items:", error);
+      }
+    };
+
+    fetchHostedItems();
+  }, [user]); // Add `user` as a dependency
+
+  useEffect(() => {
+    const fetchPostDetails = async () => {
+      try {
+        const posts = [];
+        for (const postId of hostedItems) {
+          const postDocRef = doc(db, "posts", postId);
+          const postDoc = await getDoc(postDocRef);
+
+          if (postDoc.exists()) {
+            posts.push({ id: postDoc.id, ...postDoc.data() });
+          } else {
+            console.log(`Post document with ID ${postId} not found`);
+          }
+        }
+        setHostedPosts(posts);
+      } catch (error) {
+        console.error("Error fetching hosted posts:", error);
+      }
+    };
+
+    if (hostedItems.length > 0) {
+      fetchPostDetails();
+    }
+  }, [hostedItems]);
+
   return (
-    <Image
-      src="/TestImage.jpg"
-      alt="dummy image"
-      width={1000}
-      height={1000}
-      className="object-cover object-left-top h-[60%] md:h-[90%] absolute -bottom-10 inset-x-0 w-[90%] rounded-xl mx-auto"
-    />
+    <>
+      {hostedPosts.length > 0 ? (
+        <div className="carousel">
+          {hostedPosts.map((post, index) => (
+            <HostedCard
+              key={index}
+              card={post}
+              postId={hostedItems[index]}
+              index={index}
+            />
+          ))}
+        </div>
+      ) : (
+        <p>No hosted items yet.</p>
+      )}
+    </>
   );
 };
