@@ -17,9 +17,12 @@ import {
   doc,
   getCountFromServer,
   setDoc,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "@/lib/firebase/clientApp";
 import { ref, uploadBytes } from "firebase/storage";
+import useAuth from "@/lib/hooks/useAuth";
 
 import { v4 } from "uuid";
 import useBoundState from "./bound-state";
@@ -156,6 +159,8 @@ const FileUploadButton = ({
 };
 
 const PostForm = () => {
+  const user = useAuth();
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -219,23 +224,36 @@ const PostForm = () => {
     event.preventDefault(); // Prevent default form submission if necessary
     // save post in document
     const postRef = collection(db, "posts");
+    const newPostDocRef = doc(postRef);
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
 
-    const savedFileNames = [];
-    // save to storage
-    const postString = "";
-    for (const file of files) {
-      const str = `${postString}_${file.file.name}_${v4()}`;
-      savedFileNames.push(str);
-      await addFileToStorage(file, str);
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+
+      const userHosted = userData.hosted || [];
+
+      const updatedUserHosted = [...userHosted, newPostDocRef.id];
+
+      const savedFileNames = [];
+      // save to storage
+      const postString = "";
+      for (const file of files) {
+        const str = `${postString}_${file.file.name}_${v4()}`;
+        savedFileNames.push(str);
+        await addFileToStorage(file, str);
+      }
+
+      await setDoc(newPostDocRef, {
+        title,
+        desc,
+        files: savedFileNames,
+        content,
+        applied: [],
+      });
+
+      await updateDoc(userDocRef, { hosted: updatedUserHosted });
     }
-
-    await setDoc(doc(postRef), {
-      title,
-      desc,
-      files: savedFileNames,
-      content,
-      applied: [],
-    });
   };
 
   const addFileToStorage = async (file: TFileItemProps, fileName: string) => {

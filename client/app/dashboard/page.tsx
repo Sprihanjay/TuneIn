@@ -23,6 +23,8 @@ export default function Dashboard() {
   const placeholders = ["Search for a gig/opportunity..."];
   const user = useAuth();
 
+  //
+
   const handleApply = async (postId: string) => {
     if (!user) {
       console.log("User not logged in");
