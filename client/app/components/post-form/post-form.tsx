@@ -226,6 +226,7 @@ const PostForm = () => {
       desc,
       files: savedFileNames,
       content,
+      applied: [],
     });
   };
 
@@ -259,7 +260,7 @@ const PostForm = () => {
       >
         {"< Back"}
       </div>
-      <div className="bg-gray-900 w-1/2 px-10 h-11/12 py-4 rounded-lg border border-customthree">
+      <div className="bg-customtwo w-1/2 px-10 h-11/12 py-4 rounded-lg">
         <Header text="Post Title"></Header>
         <input
           ref={titleBinding}
