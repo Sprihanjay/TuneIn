@@ -3,7 +3,7 @@ import { CohereClient } from "cohere-ai";
 
 // Ensure to replace this with your actual API key management approach
 const cohere = new CohereClient({
-  token: process.env.COHERE_API_KEY || "", // Read from environment variables
+  token: process.env.NEXT_PUBLIC_COHERE_API_KEY || "", // Read from environment variables
 });
 
 // Define the handler for the POST method
