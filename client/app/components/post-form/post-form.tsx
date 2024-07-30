@@ -1,8 +1,11 @@
 "use client";
 
 import { useEditor, EditorContent, JSONContent } from "@tiptap/react";
+import { useEffect } from 'react';
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
+declare const gapi: any;
+
 
 import "./style.css";
 import {
@@ -173,8 +176,12 @@ const PostForm = () => {
   });
 
   const router = useRouter();
-
   const [files, setFiles] = useState<TFileItemProps[]>([]);
+  const [title, titleBinding, setTitleState] = useBoundState("");
+  const [content, contentBinding, setContentState] = useBoundState("");
+  const [desc, setDesc] = useState<string>();
+  const [eventDate, setEventDate] = useState<string>("");
+  const [eventTime, setEventTime] = useState<string>("");
 
   const determineFileType = (file: File) => {
     const name = file.type.toLowerCase();
@@ -202,7 +209,6 @@ const PostForm = () => {
 
       try {
         const type = determineFileType(file);
-
         tmp.push({
           file,
           fileType: type,
@@ -218,9 +224,41 @@ const PostForm = () => {
     setFiles([...tmp, ...files]);
   };
 
+  const addFileToStorage = async (file: TFileItemProps, fileName: string) => {
+    try {
+      if (file.fileType === EFileType.Audio) {
+        const audioRef = ref(storage, `audio/${fileName}`);
+        await uploadBytes(audioRef, file.file);
+      } else if (file.fileType === EFileType.Image) {
+        const imagesRef = ref(storage, `images/${fileName}`);
+        await uploadBytes(imagesRef, file.file);
+      }
+      return true;
+    } catch (error) {
+      console.error("Error uploading file to storage", error);
+      return false;
+    }
+  };
+
+  const initializeGapi = () => {
+    gapi.load('client:auth2', async () => {
+      await gapi.client.init({
+        apiKey: 'YOUR_API_KEY',
+        clientId: 'YOUR_CLIENT_ID',
+        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+        scope: 'https://www.googleapis.com/auth/calendar.events',
+      });
+    });
+  };
+  
+  useEffect(() => {
+    initializeGapi();
+  }, []);
+
   const createPost = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault(); // Prevent default form submission if necessary
-    // save post in document
+
+    // Save post in Firestore
     const postRef = collection(db, "posts");
     const newPostDocRef = doc(postRef);
     const userDocRef = doc(db, "users", user.uid);
@@ -230,16 +268,14 @@ const PostForm = () => {
       const userData = userDoc.data();
 
       const userHosted = userData.hosted || [];
-
       const updatedUserHosted = [...userHosted, newPostDocRef.id];
 
-      const savedFileNames = [];
-      // save to storage
-      const postString = "";
+      const savedFileNames: string[] = [];
+      // Save files to storage
       for (const file of files) {
-        const str = `${postString}_${file.file.name}_${v4()}`;
-        savedFileNames.push(str);
-        await addFileToStorage(file, str);
+        const fileName = `${file.file.name}_${v4()}`;
+        savedFileNames.push(fileName);
+        await addFileToStorage(file, fileName);
       }
 
       await setDoc(newPostDocRef, {
@@ -251,30 +287,48 @@ const PostForm = () => {
       });
 
       await updateDoc(userDocRef, { hosted: updatedUserHosted });
-    }
-  };
 
-  const addFileToStorage = async (file: TFileItemProps, fileName: string) => {
-    if (file.fileType === EFileType.Audio) {
-      const audioRef = ref(storage, `audio/${fileName}`);
-      await uploadBytes(audioRef, file.file);
-      return true;
-    } else if (file.fileType === EFileType.Image) {
-      const imagesRef = ref(storage, `images/${fileName}`);
-      await uploadBytes(imagesRef, file.file);
-      return true;
-    }
+      // Create Google Calendar Event
+      const eventDateTime = new Date(`${eventDate}T${eventTime}:00`);
+      const googleEvent = {
+        summary: title,
+        description: desc,
+        start: {
+          dateTime: eventDateTime.toISOString(),
+          timeZone: "America/Los_Angeles",
+        },
+        end: {
+          dateTime: new Date(eventDateTime.getTime() + 60 * 60 * 1000).toISOString(),
+          timeZone: "America/Los_Angeles",
+        },
+      };
 
-    return false;
+      try {
+        await gapi.client.calendar.events.insert({
+          calendarId: "primary",
+          resource: googleEvent,
+        });
+      } catch (error) {
+        console.error("Error creating Google Calendar event", error);
+      }
+
+      try {
+        await gapi.auth2.getAuthInstance().signIn();
+        const response = await gapi.client.calendar.events.insert({
+          calendarId: 'primary',
+          resource: googleEvent,
+        });
+        console.log("Event created:", response);
+      } catch (error) {
+        console.error("Error creating Google Calendar event", error);
+      }
+
+      router.push("/"); // Which Page should I return to?
   };
 
   const goBack = () => {
     router.push("/dashboard");
   };
-
-  const [title, titleBinding, setTitleState] = useBoundState("");
-  const [content, contentBinding, setContentState] = useBoundState("");
-  const [desc, setDesc] = useState<string>();
 
   return (
     <div className="flex flex-col w-full justify-center items-center">
@@ -304,6 +358,20 @@ const PostForm = () => {
           name="content"
           placeholder="Add content text..."
         ></input>
+        <Header text="Event Date"></Header>
+        <input
+          type="date"
+          value={eventDate}
+          onChange={(e) => setEventDate(e.target.value)}
+          className="bg-customthree text-customfive p-3 rounded-lg w-full"
+        />
+        <Header text="Event Time"></Header>
+        <input
+          type="time"
+          value={eventTime}
+          onChange={(e) => setEventTime(e.target.value)}
+          className="bg-customthree text-customfive p-3 rounded-lg w-full"
+        />
         <Header text="Inspiration"></Header>
         <div className="w-full flex gap-4">
           <FileUploadButton uploadFile={uploadFile}></FileUploadButton>
@@ -326,5 +394,6 @@ const PostForm = () => {
       </div>
     </div>
   );
+};
 };
 export default PostForm;
