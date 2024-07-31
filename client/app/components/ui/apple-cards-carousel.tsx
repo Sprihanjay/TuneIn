@@ -487,6 +487,7 @@ export const Card = ({
               className="object-fit
                w-3/4 h-3/4 absolute inset-0" // Adjusted width and height
             />
+            
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-20" />
           <div className="relative z-30 p-8 max-w-lg"></div>

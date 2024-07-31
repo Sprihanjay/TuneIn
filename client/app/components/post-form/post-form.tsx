@@ -262,7 +262,10 @@ const PostForm = () => {
       });
 
       await updateDoc(userDocRef, { hosted: updatedUserHosted });
+
     }
+
+    router.push('/dashboard');
   };
 
   const addFileToStorage = async (file: TFileItemProps, fileName: string) => {

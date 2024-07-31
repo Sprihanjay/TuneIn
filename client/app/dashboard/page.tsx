@@ -160,9 +160,13 @@ export default function Dashboard() {
 
         const posts = [];
         for (const item of temp) {
-          const images = ref(storage, `images/${item.src}`);
-          const url = await getDownloadURL(images);
-          posts.push({ ...item, src: url });
+          try {
+            const images = ref(storage, `images/${item.src}`);
+            const url = await getDownloadURL(images);
+            posts.push({ ...item, src: url });
+          } catch (e) {
+            console.log(e);
+          }
         }
         setPostList(posts);
       }
