@@ -16,6 +16,14 @@ import useAuth from "@/lib/hooks/useAuth";
 import { toast, Toaster } from "react-hot-toast";
 import debounce from "debounce";
 
+import { google } from 'googleapis';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+import axios from 'axios'
+
+import { useSession } from '@supabase/auth-helpers-react';
+import { supabase } from "../api/supabase";
+
 export default function Dashboard() {
   const [query, setQuery] = useState<string>("");
   const [postList, setPostList] = useState<any[]>([]);
@@ -23,9 +31,51 @@ export default function Dashboard() {
   const placeholders = ["Search for a gig/opportunity..."];
   const user = useAuth();
 
-  //
+  const addToGoogleCalendar = async (name: string, description: string, start: Date, end: Date) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        scopes: 'https://www.googleapis.com/auth/calendar',
+        skipBrowserRedirect: true
+      }
+    });
 
-  const handleApply = async (postId: string) => {
+    if(error) {
+      alert("Error logging in to Google provider with Supabase");
+      console.log(error);
+    }
+
+    const session = await supabase.auth.getSession()
+    const event = {
+      'summary': name,
+      'description': description,
+      'start': {
+        'dateTime': start.toISOString(), // Date.toISOString() ->
+        'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone // America/Los_Angeles
+      },
+      'end': {
+        'dateTime': end.toISOString(), // Date.toISOString() ->
+        'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone // America/Los_Angeles
+      }
+    }
+
+    await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + (session.data.session!.provider_token ? session.data.session!.provider_token : "")
+      },
+      body: JSON.stringify(event)
+    }).then((data) => {
+      return data.json();
+    }).then((data) => {
+      console.log(data);
+      alert("Gig added, check your Google Calendar!");
+    });
+  }
+
+  const handleApply = async (postId: string, title: string, desc: string, startDate: Date, endDate: Date) => {
+    await addToGoogleCalendar(title, desc, startDate, endDate);
+    
     if (!user) {
       console.log("User not logged in");
       return;
@@ -97,6 +147,8 @@ export default function Dashboard() {
             title: doc.data().title,
             description: doc.data().desc,
             content: doc.data().content,
+            startDate: doc.data().startDate,
+            endDate: doc.data().endDate
           };
           if (
             filter === "" ||
@@ -124,7 +176,7 @@ export default function Dashboard() {
       key={index}
       card={card}
       index={index}
-      onClick={() => handleApply(card.id)}
+      onClick={() => handleApply(card.id, card.title, card.description, card.startDate.toDate(), card.endDate.toDate())}
     />
   ));
 

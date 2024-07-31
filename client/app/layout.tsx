@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
+import { createClient } from '@supabase/supabase-js';
+
 const rubik = Rubik({ subsets: ["latin"], variable: "--font-rubik" });
 
 export const metadata: Metadata = {

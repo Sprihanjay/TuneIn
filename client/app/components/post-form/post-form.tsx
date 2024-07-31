@@ -27,9 +27,18 @@ import useBoundState from "./bound-state";
 import { useRouter } from "next/navigation";
 import useAuth from "@/lib/hooks/useAuth";
 
+import DateTimePicker from 'react-datetime-picker';
+
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
+
 type THeaderProps = {
   text: string;
 };
+
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const Header = ({ text }: THeaderProps) => {
   return (
@@ -247,6 +256,8 @@ const PostForm = () => {
         desc,
         files: savedFileNames,
         content,
+        startDate: start,
+        endDate: end,
         applied: [],
       });
 
@@ -275,6 +286,9 @@ const PostForm = () => {
   const [title, titleBinding, setTitleState] = useBoundState("");
   const [content, contentBinding, setContentState] = useBoundState("");
   const [desc, setDesc] = useState<string>();
+
+  const [start, setStart] = useState<Value>(new Date());
+  const [end, setEnd] = useState<Value>(new Date());
 
   return (
     <div className="flex flex-col w-full justify-center items-center">
@@ -314,6 +328,12 @@ const PostForm = () => {
               key={item.file.name}
             ></FileItem>
           ))}
+        </div>
+        <Header text="Date"></Header>
+        <div className="flex">
+          <DateTimePicker className='bg-white' onChange={(value) => setStart(value as Date)} value={start} />
+          <div className="text-white mx-2"> to </div>
+          <DateTimePicker className='bg-white' onChange={(value) => setEnd(value as Date)} value={end} />
         </div>
         <div className="w-full flex justify-center mt-6">
           <button
